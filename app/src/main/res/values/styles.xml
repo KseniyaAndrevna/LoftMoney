@@ -7,9 +7,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="TextStyle">
-        <item name="android:textColor">@color/textColor</item>
-        <item name="android:textSize">@dimen/textSize</item>
+    <style name="EditTextStyle">
+        <item name="android:textColor">@color/add_et_color</item>
+        <item name="android:textColorHint">@color/add_et_hint_color</item>
+        <item name="android:textSize">@dimen/add_et_size</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ButtonStyle">
+        <item name="android:enabled">false</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawableLeft">@drawable/ic_check</item>
+        <item name="android:drawablePadding">@dimen/add_padding_chek</item>
+        <item name="android:textColor">@color/color_btn_text</item>
+        <item name="android:textSize">@dimen/add_btn_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ActivityAddStyle">
+        <item name="android:background">@color/white</item>
     </style>
 
 </resources>

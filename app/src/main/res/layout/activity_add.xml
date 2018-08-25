@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ActivityAddStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddActivity">
+
+    <EditText
+        android:id="@+id/et_name"
+        style="@style/EditTextStyle"
+        android:layout_marginBottom="@dimen/add_et_margin_b"
+        android:layout_marginEnd="@dimen/add_et_margin_st_en"
+        android:layout_marginStart="@dimen/add_et_margin_st_en"
+        android:layout_marginTop="@dimen/add_et_margin_t"
+        android:hint="@string/add_hint_name"
+        android:inputType="textCapSentences" />
+
+    <EditText
+        android:id="@+id/et_price"
+        style="@style/EditTextStyle"
+        android:layout_marginEnd="@dimen/add_et_margin_st_en"
+        android:layout_marginStart="@dimen/add_et_margin_st_en"
+        android:hint="@string/add_hint_price"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_add"
+        style="@style/ButtonStyle"
+        android:paddingStart="@dimen/add_btn_padding_st_en"
+        android:paddingEnd="@dimen/add_btn_padding_st_en"
+        android:layout_marginTop="@dimen/add_btn_margin_t"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/add_btn_confirm" />
+
+</LinearLayout>

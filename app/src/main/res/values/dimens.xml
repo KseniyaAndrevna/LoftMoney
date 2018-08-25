@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="textSize">50sp</dimen>
+
+    <!-- Add Screen -->
+    <dimen name="add_et_margin_st_en">32dp</dimen>
+    <dimen name="add_et_margin_b">8dp</dimen>
+    <dimen name="add_et_margin_t">100dp</dimen>
+    <dimen name="add_padding_chek">6dp</dimen>
+    <dimen name="add_btn_padding_st_en">16dp</dimen>
+    <dimen name="add_btn_margin_t">56dp</dimen>
+
+
+    <dimen name="add_et_size">24sp</dimen>
+    <dimen name="add_btn_text_size">14sp</dimen>
+
 </resources>
