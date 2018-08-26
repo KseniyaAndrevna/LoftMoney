@@ -2,6 +2,19 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="textColor">#b9f73701</color>
+    <color name="colorAccent">@color/lightish_blue</color>
+
+    <color name="white">#ffffff</color>
+    <color name="lightish_blue">#3574fa</color>
+    <color name="lightish_blue_alpha">#5a3574fa</color>
+    <color name="apple_green">#7ed321</color>
+    <color name="grey">#eaeaea</color>
+
+
+    <!-- Add Screen -->
+    <color name="add_et_color">@color/lightish_blue</color>
+    <color name="add_et_hint_color">@color/lightish_blue_alpha</color>
+    <color name="add_btn_enabled_color">@color/apple_green</color>
+    <color name="add_btn_disabled_color">@color/grey</color>
+
 </resources>
