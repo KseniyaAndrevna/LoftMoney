@@ -9,12 +9,20 @@
     <color name="lightish_blue_alpha">#5a3574fa</color>
     <color name="apple_green">#7ed321</color>
     <color name="grey">#eaeaea</color>
+    <color name="medium_grey">#666664</color>
+    <color name="dark_sky_blue">#4a90e2</color>
 
+    <color name="icon_launcher_color">@color/lightish_blue</color>
 
     <!-- Add Screen -->
     <color name="add_et_color">@color/lightish_blue</color>
     <color name="add_et_hint_color">@color/lightish_blue_alpha</color>
     <color name="add_btn_enabled_color">@color/apple_green</color>
     <color name="add_btn_disabled_color">@color/grey</color>
+
+    <!-- Item -->
+    <color name="item_text_name_color">@color/medium_grey</color>
+    <color name="item_text_price_color">@color/dark_sky_blue</color>
+    <color name="item_back_color">@color/white</color>
 
 </resources>
