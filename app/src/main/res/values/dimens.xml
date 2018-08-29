@@ -9,8 +9,15 @@
     <dimen name="add_btn_padding_st_en">16dp</dimen>
     <dimen name="add_btn_margin_t">56dp</dimen>
 
-
     <dimen name="add_et_size">24sp</dimen>
     <dimen name="add_btn_text_size">14sp</dimen>
+
+    <!-- Item -->
+    <dimen name="item_padding_st_en">24dp</dimen>
+    <dimen name="item_padding_t_b">28dp</dimen>
+
+    <dimen name="item_text_size">20dp</dimen>
+    <dimen name="item_text_margin_e">8dp</dimen>
+
 
 </resources>

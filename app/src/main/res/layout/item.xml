@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ItemStyle"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/item_padding_t_b"
+    android:paddingEnd="@dimen/item_padding_st_en"
+    android:paddingStart="@dimen/item_padding_st_en"
+    android:paddingTop="@dimen/item_padding_t_b">
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/TextItemStyle"
+        android:layout_marginEnd="@dimen/item_text_margin_e"
+        android:layout_weight="1"
+        android:textColor="@color/item_text_name_color"
+        tools:text="Щетка" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        style="@style/TextItemStyle"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0"
+        android:textColor="@color/item_text_price_color"
+        tools:text="70р" />
+</LinearLayout>
