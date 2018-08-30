@@ -58,6 +58,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/tab_color_primary</item>
         <item name="android:textSize">@dimen/tab_text_size</item>
+        <item name="tabIndicatorColor">@color/tab_indicator_color</item>
+        <item name="tabTextColor">@color/tab_not_selected</item>
+        <item name="tabSelectedTextColor">@color/tab_selected</item>
     </style>
 
 </resources>

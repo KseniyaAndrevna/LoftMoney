@@ -12,8 +12,6 @@ public class MainPagesAdapter extends FragmentPagerAdapter {
     private static final int PAGE_INCOMES = 1;
     private static final int PAGE_BALANCE = 2;
 
-    private static final int PAGES_COUNT = 3;
-
     private String[] pagesTitles;
 
     MainPagesAdapter(FragmentManager fm, Context context) {
@@ -47,6 +45,6 @@ public class MainPagesAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGES_COUNT;
+        return pagesTitles.length;
     }
 }
