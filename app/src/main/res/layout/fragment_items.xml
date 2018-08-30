@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/DefaultActivityStyle"
     android:background="@drawable/background"
-    tools:context=".ItemActivity">
+    tools:context=".ItemsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
-        style="@style/DefaultActivityStyle"
-        tools:listitem="@layout/item">
-
-    </android.support.v7.widget.RecyclerView>
+        style="@style/DefaultActivityStyle"/>
 
 </FrameLayout>

@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">@color/lightish_blue</color>
+    <color name="colorPrimary">@color/lightish_blue</color>
+    <color name="colorPrimaryDark">@color/dark_blue</color>
+    <color name="colorAccent">@color/pale_orange</color>
+
 
     <color name="white">#ffffff</color>
     <color name="lightish_blue">#3574fa</color>
+    <color name="dark_blue">#326EEE</color>
     <color name="lightish_blue_alpha">#5a3574fa</color>
     <color name="apple_green">#7ed321</color>
     <color name="grey">#eaeaea</color>
     <color name="medium_grey">#666664</color>
     <color name="dark_sky_blue">#4a90e2</color>
+    <color name="pale_orange">#ff9e57</color>
+    <color name="perry_winkle_70">#b38baaef</color>
+    <color name="marigold">#ffc107</color>
 
     <color name="icon_launcher_color">@color/lightish_blue</color>
 
@@ -24,5 +29,11 @@
     <color name="item_text_name_color">@color/medium_grey</color>
     <color name="item_text_price_color">@color/dark_sky_blue</color>
     <color name="item_back_color">@color/white</color>
+
+    <!-- TabLayout -->
+    <color name="tab_color_primary">@color/lightish_blue</color>
+    <color name="tab_indicator_color">@color/marigold</color>
+    <color name="tab_selected">@color/white</color>
+    <color name="tab_not_selected">@color/perry_winkle_70</color>
 
 </resources>
