@@ -1,23 +1,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <!-- Activity styles -->
-    <style name="ActivityAddStyle">
-        <item name="android:background">@color/white</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>
-
     <style name="DefaultActivityStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+
+    <style name="ActivityAddStyle" parent="DefaultActivityStyle">
+        <item name="android:background">@color/white</item>
+    </style>
+
 
     <!-- Item Style -->
     <style name="ItemStyle">
@@ -25,6 +24,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
 
     <!-- Elements styles -->
     <style name="EditTextStyle">
@@ -51,6 +51,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>.
         <item name="android:textSize">@dimen/item_text_size</item>
+    </style>
+
+    <style name="TabLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/tab_color_primary</item>
+        <item name="android:textSize">@dimen/tab_text_size</item>
+        <item name="tabIndicatorColor">@color/tab_indicator_color</item>
+        <item name="tabTextColor">@color/tab_not_selected</item>
+        <item name="tabSelectedTextColor">@color/tab_selected</item>
     </style>
 
 </resources>
