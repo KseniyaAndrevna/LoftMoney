@@ -11,20 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ItemsFragment extends Fragment {
 
     private static final String KEY_TYPE = "type";
-    public static final int TYPE_EXPENSES = 1;
-    public static final int TYPE_INCOMES = 2;
-    public static final int TYPE_UNKNOWN = -1;
 
-    public static ItemsFragment newInstance(int type) {
+    public static ItemsFragment newInstance(String type) {
         ItemsFragment fragment = new ItemsFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(ItemsFragment.KEY_TYPE, type);
+        bundle.putString(ItemsFragment.KEY_TYPE, type);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -32,26 +32,22 @@ public class ItemsFragment extends Fragment {
 
     private RecyclerView recycler;
     private ItemsAdapter adapter;
-    private List<Item> items = new ArrayList<>();
-    private int type;
+    private String type;
+    private Api api;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
-        if (args != null) {
-            type = args.getInt(KEY_TYPE, TYPE_UNKNOWN);
+        assert args != null;
+        type = args.getString(KEY_TYPE);
 
-            if (type == TYPE_UNKNOWN) {
-                throw new IllegalStateException("Unknown type");
-            }
-        } else {
-            throw new IllegalStateException("No fragment type");
-        }
+        api = ((App) getActivity().getApplication()).getApi();
 
         adapter = new ItemsAdapter();
-        addItem();
+
+        loadItems();
     }
 
     @Override
@@ -62,23 +58,29 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recycler = view.findViewById(R.id.recycler);
-
-        ItemsAdapter adapter = new ItemsAdapter();
-        adapter.setItems(items);
-
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         recycler.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
+
     }
 
-    public void addItem() {
-        items.add(new Item("Молоко", "70"));
-        items.add(new Item("Зубная щётка", "70"));
-        items.add(new Item("Сковородка с антипригарным покрытием", "4500"));
-        items.add(new Item("Стол кухонный", "2000"));
-        items.add(new Item("Велосипед", "5000"));
-        items.add(new Item("Кружка", "100"));
-        items.add(new Item("Палатка", "3000"));
-        items.add(new Item("Рюкзак", "2999"));
+    public void loadItems() {
+        Call<ItemsData> call = api.getItems(type);
+
+        call.enqueue(new Callback <ItemsData>() {
+
+            @Override
+            public void onResponse(Call<ItemsData> call, Response<ItemsData> response) {
+                ItemsData data = response.body();
+                List<Item> items = data.getData();
+                adapter.setItems(items);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<ItemsData> call, Throwable t) {
+
+            }
+        });
     }
 }
