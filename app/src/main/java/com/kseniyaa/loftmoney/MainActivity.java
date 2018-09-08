@@ -1,16 +1,30 @@
 package com.kseniyaa.loftmoney;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int ITEM_REQUEST_CODE = 100;
 
     private ViewPager viewPager;
     private MainPagesAdapter adapter;
     private TabLayout tabLayout;
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,10 +32,76 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tab_layout);
+        toolbar = findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab);
 
-        adapter = new MainPagesAdapter(getSupportFragmentManager(),this);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int page = viewPager.getCurrentItem();
+
+                String type = null;
+
+                switch (page) {
+                    case MainPagesAdapter.PAGE_INCOMES:
+                        type = Item.Types.income.toString();
+                        break;
+                    case MainPagesAdapter.PAGE_EXPENSES:
+                        type = Item.Types.expense.toString();
+                        break;
+                }
+
+                if (type != null) {
+                    Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                    intent.putExtra(AddActivity.KEY_TYPE, type);
+                    startActivityForResult(intent, ITEM_REQUEST_CODE);
+                }
+            }
+        });
+
+        setSupportActionBar(toolbar);
+
+        adapter = new MainPagesAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new PageListener());
+
+    }
+
+    class PageListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case MainPagesAdapter.PAGE_INCOMES:
+                case MainPagesAdapter.PAGE_EXPENSES:
+                    fab.show();
+                    break;
+                case MainPagesAdapter.PAGE_BALANCE:
+                    fab.hide();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) { }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

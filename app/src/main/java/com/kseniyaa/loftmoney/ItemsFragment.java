@@ -1,9 +1,15 @@
 package com.kseniyaa.loftmoney;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +23,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ItemsFragment extends Fragment {
 
     private static final String KEY_TYPE = "type";
+    public static final int ITEM_REQUEST_CODE = 100;
 
     public static ItemsFragment newInstance(String type) {
         ItemsFragment fragment = new ItemsFragment();
@@ -31,9 +40,12 @@ public class ItemsFragment extends Fragment {
     }
 
     private RecyclerView recycler;
+    private FloatingActionButton fab;
     private ItemsAdapter adapter;
     private String type;
     private Api api;
+    private SwipeRefreshLayout refresh;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,26 +63,59 @@ public class ItemsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_items, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        MainActivity mainActivity = (MainActivity) this.getActivity();
+        fab = mainActivity.findViewById(R.id.fab);
         recycler = view.findViewById(R.id.recycler);
+        refresh = view.findViewById(R.id.refresh);
+        refresh.setColorSchemeColors(
+                ContextCompat.getColor(requireContext(), R.color.refresh_first),
+                ContextCompat.getColor(requireContext(), R.color.refresh_second),
+                ContextCompat.getColor(requireContext(), R.color.refresh_third),
+                ContextCompat.getColor(requireContext(), R.color.refresh_fourth));
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadItems();
+            }
+        });
+
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         recycler.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
 
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy < 0 && !fab.isShown())
+                    fab.show();
+                else if(dy > 0 && fab.isShown())
+                    fab.hide();
+            }
+        });
     }
 
     public void loadItems() {
         Call<ItemsData> call = api.getItems(type);
 
-        call.enqueue(new Callback <ItemsData>() {
+        call.enqueue(new Callback<ItemsData>() {
 
             @Override
             public void onResponse(Call<ItemsData> call, Response<ItemsData> response) {
+                refresh.setRefreshing(false);
                 ItemsData data = response.body();
                 List<Item> items = data.getData();
                 adapter.setItems(items);
@@ -79,8 +124,22 @@ public class ItemsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ItemsData> call, Throwable t) {
-
+                refresh.setRefreshing(false);
             }
         });
+
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ITEM_REQUEST_CODE & resultCode == RESULT_OK) {
+            Item item = data.getParcelableExtra(AddActivity.KEY_ITEM);
+            if (item.getType().equals(type)) {
+                adapter.addItem(item);
+            }
+        }
+    }
+
 }

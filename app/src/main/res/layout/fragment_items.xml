@@ -5,8 +5,15 @@
     android:background="@drawable/background"
     tools:context=".ItemsFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        style="@style/DefaultActivityStyle"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        style="@style/DefaultActivityStyle">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            style="@style/DefaultActivityStyle" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

@@ -1,14 +1,19 @@
 package com.kseniyaa.loftmoney;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class AddActivity extends AppCompatActivity {
+
+    public static final String KEY_TYPE = "type";
+    public static final String KEY_ITEM = "item";
 
     private EditText nameInput;
     private EditText priceInput;
@@ -23,23 +28,41 @@ public class AddActivity extends AppCompatActivity {
         priceInput = findViewById(R.id.et_price);
         addBtn = findViewById(R.id.btn_add);
 
-        TextWatcher watcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                addBtn.setEnabled(!(TextUtils.isEmpty(nameInput.getText()) || TextUtils.isEmpty(priceInput.getText())));
-            }
-        };
+        final String type = getIntent().getExtras().getString(KEY_TYPE);
 
         nameInput.addTextChangedListener(watcher);
         priceInput.addTextChangedListener(watcher);
 
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = nameInput.getText().toString();
+                String price = priceInput.getText().toString();
+
+                Item item = new Item(name,Integer.parseInt(price),type);
+
+                Intent intent = new Intent();
+                intent.putExtra(KEY_ITEM, item);
+
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
     }
+
+    TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            addBtn.setEnabled(!(TextUtils.isEmpty(nameInput.getText()) || TextUtils.isEmpty(priceInput.getText())));
+        }
+    };
 }

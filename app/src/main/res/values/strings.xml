@@ -16,7 +16,7 @@
         <item name="main_tab_incomes">@string/incomes</item>
         <item name="main_tab_balance">@string/balance</item>
     </string-array>
-
+    <string name="main_title">Учёт бюджета</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

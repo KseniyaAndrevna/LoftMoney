@@ -24,4 +24,7 @@
     <!-- Tab -->
     <dimen name="tab_text_size">@dimen/middle_text_size</dimen>
 
+    <!-- Fab -->
+    <dimen name="fab_margin_en">16dp</dimen>
+    <dimen name="fab_margin_b">28dp</dimen>
 </resources>
