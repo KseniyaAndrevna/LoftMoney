@@ -19,6 +19,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         this.items = items;
     }
 
+    public void addItem (Item item) {
+        this.items.add(item);
+        notifyItemInserted(items.size()-1);
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,7 +37,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
         holder.bind(item);
-
     }
 
     @Override
@@ -47,9 +51,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
         ItemViewHolder(View itemView) {
             super(itemView);
-
             name = itemView.findViewById(R.id.tv_name);
             price = itemView.findViewById(R.id.tv_price);
+
         }
 
         void bind(Item item) {

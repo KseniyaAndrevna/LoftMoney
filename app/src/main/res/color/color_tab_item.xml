@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--<item android:color="@color/perry_winkle_70" android:s="false" />-->
-    <item android:color="@color/white" android:state_activated="true" />
-</selector>

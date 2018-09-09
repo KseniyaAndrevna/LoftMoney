@@ -8,59 +8,73 @@
     </style>
 
     <!-- Activity styles -->
-    <style name="DefaultActivityStyle">
+    <style name="DefaultActivityStyle" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="ActivityAddStyle" parent="DefaultActivityStyle">
-        <item name="android:background">@color/white</item>
+    <style name="DefaultActivityStyleMV">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="ActivityAddStyle" parent="DefaultActivityStyle">
+        <item name="android:textColorHint">@color/add_et_hint_color</item>
+        <item name="android:background">@color/white</item>
+        <item name="colorAccent">@color/add_color_accent</item>
+    </style>
 
     <!-- Item Style -->
-    <style name="ItemStyle">
+    <style name="ItemStyle" parent="DefaultActivityStyleMV">
         <item name="android:background">@color/item_back_color</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
-
 
     <!-- Elements styles -->
-    <style name="EditTextStyle">
-        <item name="android:textColor">@color/add_et_color</item>
-        <item name="android:textColorHint">@color/add_et_hint_color</item>
-        <item name="android:textSize">@dimen/add_et_size</item>
-        <item name="android:layout_width">match_parent</item>
+    <style name="DefaultElementStyle">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="ButtonStyle">
+    <style name="EditTextStyle" parent="DefaultActivityStyleMV">
+        <item name="android:textColor">@color/add_et_color</item>
+        <item name="android:textSize">@dimen/add_et_size</item>
+    </style>
+
+    <style name="ButtonStyle" parent="DefaultElementStyle">
         <item name="android:enabled">false</item>
         <item name="android:background">@null</item>
         <item name="android:drawableLeft">@drawable/ic_check</item>
         <item name="android:drawablePadding">@dimen/add_padding_chek</item>
         <item name="android:textColor">@color/color_btn_text</item>
         <item name="android:textSize">@dimen/add_btn_text_size</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="TextItemStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="TextItemStyle" parent="DefaultElementStyle">
         <item name="android:fontFamily">sans-serif-medium</item>.
         <item name="android:textSize">@dimen/item_text_size</item>
     </style>
 
-    <style name="TabLayoutStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="TabLayoutStyle" parent="DefaultActivityStyleMV">
         <item name="android:background">@color/tab_color_primary</item>
         <item name="android:textSize">@dimen/tab_text_size</item>
         <item name="tabIndicatorColor">@color/tab_indicator_color</item>
         <item name="tabTextColor">@color/tab_not_selected</item>
         <item name="tabSelectedTextColor">@color/tab_selected</item>
+    </style>
+
+    <style name="ToolbarStyle"  parent="DefaultActivityStyleMV" >
+        <item name="android:background">@color/toolbar_back_color</item>
+        <item name="layout_scrollFlags">scroll|snap</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="ViewPagerStyle" parent="DefaultActivityStyle">
+        <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
+    </style>
+
+    <style name="FabStyle" parent="DefaultElementStyle">
+        <item name="fabSize">normal</item>
+        <item name="android:src">@drawable/ic_add</item>
     </style>
 
 </resources>
