@@ -3,25 +3,31 @@ package com.kseniyaa.loftmoney;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
 
-    private List<Item> items = Collections.emptyList();
+    private List<Item> items = new ArrayList<>();
+    private ItemsAdapterListener listener = null;
 
     public void setItems(List<Item> items) {
         this.items = items;
     }
 
-    public void addItem (Item item) {
+    public void addItem(Item item) {
         this.items.add(item);
-        notifyItemInserted(items.size()-1);
+        notifyItemInserted(items.size() - 1);
+    }
+
+    public void setListener(ItemsAdapterListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -29,19 +35,52 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item, parent,false);
+        View view = inflater.inflate(R.layout.item, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
-        holder.bind(item);
+        holder.bind(item, listener, position, selections.get(position));
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    private SparseBooleanArray selections = new SparseBooleanArray();
+
+    public void toggleItem(int position) {
+        if (selections.get(position, false)) {
+            selections.put(position, false);
+        } else {
+            selections.put(position, true);
+            System.out.println(selections);
+        }
+        notifyItemChanged(position);
+    }
+
+    public void clearSelections() {
+        selections.clear();
+        notifyDataSetChanged();
+    }
+
+    public List<Integer> getSelectedItems() {
+        List<Integer> selected = new ArrayList<>();
+        for (int i = 0; i < getItemCount(); i++) {
+            if (selections.get(i)) {
+                selected.add(i);
+            }
+        }
+        System.out.println(selected);
+        return selected;
+    }
+
+    public void removeItem(int position) {
+            items.remove(position);
+        notifyItemRemoved(position);
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -56,9 +95,36 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
         }
 
-        void bind(Item item) {
+        void bind(final Item item, final ItemsAdapterListener listener, final int position, final boolean selected) {
             name.setText(item.getName());
             price.setText(Integer.toString(item.getPrice()));
+
+            if (item.getType().equals(Item.Types.income.toString())) {
+                int color = itemView.getResources().getColor(R.color.item_text_price_exp_color);
+                price.setTextColor(color);
+            }
+
+            itemView.setSelected(selected);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.OnItemClick(item, position);
+                    }
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (listener != null) {
+                        listener.OnItemLongClick(item, position);
+                    }
+                    return true;
+                }
+            });
         }
     }
 }
+

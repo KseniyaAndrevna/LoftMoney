@@ -18,6 +18,14 @@
     </string-array>
     <string name="main_title">Учёт бюджета</string>
 
+    <!-- Action Mode -->
+    <string name="menu_item_del">Удалить</string>
+    <string name="item_del_dialog_msg">Вы точно хотите удалить выбранные элементы?</string>
+    <string name="item_del_dialog_yes">Да</string>
+    <string name="item_del_dialog_no">Нет</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

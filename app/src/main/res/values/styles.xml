@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/action_mode_back</item>
     </style>
 
     <!-- Activity styles -->
@@ -26,7 +28,7 @@
 
     <!-- Item Style -->
     <style name="ItemStyle" parent="DefaultActivityStyleMV">
-        <item name="android:background">@color/item_back_color</item>
+        <item name="android:background">@drawable/bg_item</item>
     </style>
 
     <!-- Elements styles -->

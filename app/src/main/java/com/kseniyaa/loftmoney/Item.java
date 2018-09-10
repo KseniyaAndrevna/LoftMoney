@@ -7,12 +7,12 @@ public class Item implements Parcelable{
 
     enum Types {expense, income}
 
-    private int id;
+    private String id;
     private String name;
     private String type;
     private int price;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -28,7 +28,7 @@ public class Item implements Parcelable{
         return type;
     }
 
-    public Item(int id, String name, int price, String type) {
+    public Item(String id, String name, int price, String type) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -42,7 +42,7 @@ public class Item implements Parcelable{
     }
 
     protected Item(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         name = in.readString();
         type = in.readString();
         price = in.readInt();
@@ -67,7 +67,7 @@ public class Item implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(name);
         dest.writeString(type);
         dest.writeInt(price);

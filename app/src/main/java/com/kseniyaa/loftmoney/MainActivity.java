@@ -16,11 +16,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int ITEM_REQUEST_CODE = 100;
-
     private ViewPager viewPager;
     private MainPagesAdapter adapter;
-    private TabLayout tabLayout;
+    private static TabLayout tabLayout;
     private Toolbar toolbar;
     private FloatingActionButton fab;
 
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 if (type != null) {
                     Intent intent = new Intent(MainActivity.this, AddActivity.class);
                     intent.putExtra(AddActivity.KEY_TYPE, type);
-                    startActivityForResult(intent, ITEM_REQUEST_CODE);
+                    startActivityForResult(intent, ItemsFragment.ITEM_REQUEST_CODE);
                 }
             }
         });
@@ -63,17 +61,21 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new MainPagesAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-
         tabLayout.setupWithViewPager(viewPager);
-
         viewPager.addOnPageChangeListener(new PageListener());
 
+    }
+
+    public static TabLayout getTabLayout() {
+        return tabLayout;
     }
 
     class PageListener implements ViewPager.OnPageChangeListener {
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            ItemsFragment.closeActionMode();
+        }
 
         @Override
         public void onPageSelected(int position) {
@@ -92,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageScrollStateChanged(int state) { }
-
     }
 
     @Override
