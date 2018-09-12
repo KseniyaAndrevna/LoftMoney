@@ -19,6 +19,8 @@
     <color name="marigold">#ffc107</color>
     <color name="dark_grey_blue">#333f59</color>
     <color name="white_five">#f2f2f2</color>
+    <color name="white_two">#59ffffff</color>
+
 
     <color name="icon_launcher_color">@color/lightish_blue</color>
 
@@ -54,5 +56,11 @@
     <color name="action_mode_back">@color/dark_grey_blue</color>
     <color name="action_mode_item_selected">@color/white_five</color>
     <color name="action_mode_item_default">@color/white</color>
+
+    <!-- Auth Screen -->
+    <color name="auth_back">@color/lightish_blue</color>
+    <color name="auth_btn_text_color">@color/lightish_blue</color>
+    <color name="auth_app_name_text_color">@color/white</color>
+    <color name="auth_version_text_color">@color/white_two</color>
 
 </resources>

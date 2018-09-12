@@ -23,10 +23,14 @@
     <string name="item_del_dialog_msg">Вы точно хотите удалить выбранные элементы?</string>
     <string name="item_del_dialog_yes">Да</string>
     <string name="item_del_dialog_no">Нет</string>
+    <string name="action_mode_title">Выделено:\u0020</string>
+
+    <!-- Auth Screen -->
+    <string name="btn_google_title">Войти</string>
+    <string name="tv_version_title">Версия\u0020</string>
+    <string name="tv_version_year">2018</string>
+
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="action_mode_title">Выделено:\u0020</string>
-
-
 </resources>

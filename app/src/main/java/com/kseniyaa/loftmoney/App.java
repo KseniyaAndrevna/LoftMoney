@@ -34,7 +34,8 @@ public class App extends Application {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://verdant-violet.glitch.me")
+               //.baseUrl("https://verdant-violet.glitch.me")
+                .baseUrl("http://android.loftschool.com/basic/v1/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();

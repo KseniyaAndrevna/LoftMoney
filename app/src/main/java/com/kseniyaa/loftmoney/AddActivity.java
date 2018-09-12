@@ -1,7 +1,8 @@
 package com.kseniyaa.loftmoney;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -10,14 +11,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AddActivity extends AppCompatActivity {
 
     public static final String KEY_TYPE = "type";
-    public static final String KEY_ITEM = "item";
 
     private EditText nameInput;
     private EditText priceInput;
     private Button addBtn;
+    private Api api;
+    private SharedPreferences sharedPreferences;
+    private String auth_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,7 @@ public class AddActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.et_name);
         priceInput = findViewById(R.id.et_price);
         addBtn = findViewById(R.id.btn_add);
+        api = ((App) getApplication()).getApi();
 
         final String type = getIntent().getExtras().getString(KEY_TYPE);
 
@@ -40,15 +48,9 @@ public class AddActivity extends AppCompatActivity {
                 String price = priceInput.getText().toString();
 
                 Item item = new Item(name,Integer.parseInt(price),type);
-
-                Intent intent = new Intent();
-                intent.putExtra(KEY_ITEM, item);
-
-                setResult(RESULT_OK, intent);
-                finish();
+                createItems(item);
             }
         });
-
     }
 
     TextWatcher watcher = new TextWatcher() {
@@ -65,4 +67,24 @@ public class AddActivity extends AppCompatActivity {
             addBtn.setEnabled(!(TextUtils.isEmpty(nameInput.getText()) || TextUtils.isEmpty(priceInput.getText())));
         }
     };
+
+    public void getTokenValue() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        auth_token = sharedPreferences.getString(AuthActivity.SAVE_TOKEN, "");
+    }
+
+    public void createItems(Item item) {
+        getTokenValue();
+        Call<Item> call = api.createItem(item, auth_token);
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                finish();
+            }
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+    }
 }
