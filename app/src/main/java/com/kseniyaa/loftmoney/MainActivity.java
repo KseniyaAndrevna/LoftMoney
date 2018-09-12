@@ -3,12 +3,14 @@ package com.kseniyaa.loftmoney;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -18,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private MainPagesAdapter adapter;
-    private static TabLayout tabLayout;
+    private TabLayout tabLayout;
     private Toolbar toolbar;
     private FloatingActionButton fab;
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -66,15 +70,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static TabLayout getTabLayout() {
-        return tabLayout;
-    }
-
     class PageListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            ItemsFragment.closeActionMode();
+
+            if (ItemsFragment.actionMode != null){
+            ItemsFragment.actionMode.finish();}
         }
 
         @Override
@@ -104,5 +106,19 @@ public class MainActivity extends AppCompatActivity {
         for (Fragment fragment : fragments) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onSupportActionModeFinished(@NonNull ActionMode mode) {
+        super.onSupportActionModeFinished(mode);
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.tab_color_primary));
+        fab.show();
+    }
+
+    @Override
+    public void onSupportActionModeStarted(@NonNull ActionMode mode) {
+        super.onSupportActionModeStarted(mode);
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.action_mode_back));
+        fab.hide();
     }
 }

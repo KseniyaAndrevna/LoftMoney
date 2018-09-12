@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -47,13 +46,11 @@ public class ItemsFragment extends Fragment {
 
     private RecyclerView recycler;
     private FloatingActionButton fab;
-
     private ItemsAdapter adapter;
     private String type;
     private Api api;
     private SwipeRefreshLayout refresh;
-    private static ActionMode actionMode;
-
+    public static ActionMode actionMode;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,12 +136,6 @@ public class ItemsFragment extends Fragment {
         });
     }
 
-    public static void closeActionMode() {
-        if (actionMode != null) {
-            actionMode.finish();
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -177,6 +168,7 @@ public class ItemsFragment extends Fragment {
                 return;
             }
             toggleItem(position);
+            actionMode.setTitle(getString(R.string.action_mode_title) + adapter.getSelectedItems().size());
         }
 
         @Override
@@ -185,19 +177,16 @@ public class ItemsFragment extends Fragment {
                 return;
             }
             ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
-            fab.hide();
             toggleItem(position);
+            actionMode.setTitle(getString(R.string.action_mode_title) + 1);
         }
 
         private void toggleItem(int position) {
             adapter.toggleItem(position);
         }
-
     }
 
     class ActionModeCallback implements ActionMode.Callback {
-
-        private TabLayout tabLayout = MainActivity.getTabLayout();
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -209,7 +198,6 @@ public class ItemsFragment extends Fragment {
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = new MenuInflater(requireContext());
             inflater.inflate(R.menu.menu_action_mode, menu);
-            tabLayout.setBackgroundColor(getResources().getColor(R.color.action_mode_back));
             return true;
         }
 
@@ -225,15 +213,12 @@ public class ItemsFragment extends Fragment {
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             adapter.clearSelections();
-            fab.show();
             actionMode = null;
-            tabLayout.setBackgroundColor(getResources().getColor(R.color.tab_color_primary));
         }
 
         private void showConfirmationDialog() {
             ConfirmDeleteDialog dialog = new ConfirmDeleteDialog();
             dialog.show(getFragmentManager(), null);
-
             dialog.setListener(new ConfirmDeleteDialog.Listener() {
                 @Override
                 public void onDeleteConfirmed() {

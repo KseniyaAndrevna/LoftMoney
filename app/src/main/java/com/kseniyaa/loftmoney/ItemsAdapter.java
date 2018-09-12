@@ -57,7 +57,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
             selections.put(position, false);
         } else {
             selections.put(position, true);
-            System.out.println(selections);
         }
         notifyItemChanged(position);
     }
@@ -74,12 +73,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                 selected.add(i);
             }
         }
-        System.out.println(selected);
         return selected;
     }
 
     public void removeItem(int position) {
-            items.remove(position);
+        items.remove(position);
         notifyItemRemoved(position);
     }
 
