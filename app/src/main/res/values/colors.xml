@@ -17,6 +17,8 @@
     <color name="perry_winkle_70">#b38baaef</color>
     <color name="perry_winkle_100">#1e88e5</color>
     <color name="marigold">#ffc107</color>
+    <color name="dark_grey_blue">#333f59</color>
+    <color name="white_five">#f2f2f2</color>
 
     <color name="icon_launcher_color">@color/lightish_blue</color>
 
@@ -47,5 +49,10 @@
     <color name="refresh_second">@color/marigold</color>
     <color name="refresh_third">@color/apple_green</color>
     <color name="refresh_fourth">@color/lightish_blue</color>
+
+    <!-- ActionMode -->
+    <color name="action_mode_back">@color/dark_grey_blue</color>
+    <color name="action_mode_item_selected">@color/white_five</color>
+    <color name="action_mode_item_default">@color/white</color>
 
 </resources>

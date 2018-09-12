@@ -10,10 +10,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -45,7 +50,7 @@ public class ItemsFragment extends Fragment {
     private String type;
     private Api api;
     private SwipeRefreshLayout refresh;
-
+    public static ActionMode actionMode;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class ItemsFragment extends Fragment {
         api = ((App) getActivity().getApplication()).getApi();
 
         adapter = new ItemsAdapter();
+        adapter.setListener(new AdapterListener());
 
         loadItems();
     }
@@ -102,7 +108,7 @@ public class ItemsFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy < 0 && !fab.isShown())
                     fab.show();
-                else if(dy > 0 && fab.isShown())
+                else if (dy > 0 && fab.isShown())
                     fab.hide();
             }
         });
@@ -124,10 +130,10 @@ public class ItemsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ItemsData> call, Throwable t) {
+                System.out.println(t);
                 refresh.setRefreshing(false);
             }
         });
-
     }
 
     @Override
@@ -142,4 +148,83 @@ public class ItemsFragment extends Fragment {
         }
     }
 
+    private void removeSelectedItems() {
+        List<Integer> selected = adapter.getSelectedItems();
+        for (int i = 0; i < selected.size(); i++) {
+            if (i == 0) {
+                adapter.removeItem(selected.get(i));
+            } else {
+                adapter.removeItem(selected.get(i) - 1);
+            }
+        }
+        actionMode.finish();
+    }
+
+    class AdapterListener implements ItemsAdapterListener {
+
+        @Override
+        public void OnItemClick(Item item, int position) {
+            if (actionMode == null) {
+                return;
+            }
+            toggleItem(position);
+            actionMode.setTitle(getString(R.string.action_mode_title) + adapter.getSelectedItems().size());
+        }
+
+        @Override
+        public void OnItemLongClick(Item item, int position) {
+            if (actionMode != null) {
+                return;
+            }
+            ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
+            toggleItem(position);
+            actionMode.setTitle(getString(R.string.action_mode_title) + 1);
+        }
+
+        private void toggleItem(int position) {
+            adapter.toggleItem(position);
+        }
+    }
+
+    class ActionModeCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            actionMode = mode;
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = new MenuInflater(requireContext());
+            inflater.inflate(R.menu.menu_action_mode, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            if (item.getItemId() == R.id.menu_item_delete) {
+                showConfirmationDialog();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            adapter.clearSelections();
+            actionMode = null;
+        }
+
+        private void showConfirmationDialog() {
+            ConfirmDeleteDialog dialog = new ConfirmDeleteDialog();
+            dialog.show(getFragmentManager(), null);
+            dialog.setListener(new ConfirmDeleteDialog.Listener() {
+                @Override
+                public void onDeleteConfirmed() {
+                    removeSelectedItems();
+                }
+            });
+        }
+    }
 }
