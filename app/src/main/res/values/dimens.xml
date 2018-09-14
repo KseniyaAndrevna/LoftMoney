@@ -27,4 +27,21 @@
     <!-- Fab -->
     <dimen name="fab_margin_en">16dp</dimen>
     <dimen name="fab_margin_b">28dp</dimen>
+
+    <!-- Auth Screen -->
+    <dimen name="icon_size">96dp</dimen>
+    <dimen name="icon_margin_top">200dp</dimen>
+    <dimen name="btn_text_size">8sp</dimen>
+    <dimen name="app_name_text_size">36sp</dimen>
+    <dimen name="app_name_text_margin_t">18dp</dimen>
+    <dimen name="btn_sign_margin_t">36dp</dimen>
+    <dimen name="btn_sign_width">170dp</dimen>
+    <dimen name="btn_sign_high">48dp</dimen>
+    <dimen name="btn_sign_padding_en">40dp</dimen>
+    <dimen name="btn_sign_padding_st">48dp</dimen>
+    <dimen name="tv_version_margin_b">32dp</dimen>
+
+
+
+
 </resources>

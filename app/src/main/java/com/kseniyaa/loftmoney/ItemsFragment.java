@@ -1,8 +1,10 @@
 package com.kseniyaa.loftmoney;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -28,19 +30,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.app.Activity.RESULT_OK;
-
 public class ItemsFragment extends Fragment {
 
     private static final String KEY_TYPE = "type";
     public static final int ITEM_REQUEST_CODE = 100;
+    private SharedPreferences sharedPreferences;
+    private String auth_token;
 
     public static ItemsFragment newInstance(String type) {
         ItemsFragment fragment = new ItemsFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ItemsFragment.KEY_TYPE, type);
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
@@ -50,7 +51,8 @@ public class ItemsFragment extends Fragment {
     private String type;
     private Api api;
     private SwipeRefreshLayout refresh;
-    public static ActionMode actionMode;
+    public ActionMode actionMode;
+    Item item1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +67,6 @@ public class ItemsFragment extends Fragment {
         adapter = new ItemsAdapter();
         adapter.setListener(new AdapterListener());
 
-        loadItems();
     }
 
     @Override
@@ -112,50 +113,22 @@ public class ItemsFragment extends Fragment {
                     fab.hide();
             }
         });
-    }
 
-    public void loadItems() {
-        Call<ItemsData> call = api.getItems(type);
-
-        call.enqueue(new Callback<ItemsData>() {
-
-            @Override
-            public void onResponse(Call<ItemsData> call, Response<ItemsData> response) {
-                refresh.setRefreshing(false);
-                ItemsData data = response.body();
-                List<Item> items = data.getData();
-                adapter.setItems(items);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<ItemsData> call, Throwable t) {
-                System.out.println(t);
-                refresh.setRefreshing(false);
-            }
-        });
+        loadItems();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == ITEM_REQUEST_CODE & resultCode == RESULT_OK) {
-            Item item = data.getParcelableExtra(AddActivity.KEY_ITEM);
-            if (item.getType().equals(type)) {
-                adapter.addItem(item);
-            }
-        }
+        loadItems();
     }
 
     private void removeSelectedItems() {
         List<Integer> selected = adapter.getSelectedItems();
+        System.out.println("selected" + selected);
+        System.out.println(selected.get(0));
         for (int i = 0; i < selected.size(); i++) {
-            if (i == 0) {
-                adapter.removeItem(selected.get(i));
-            } else {
-                adapter.removeItem(selected.get(i) - 1);
-            }
+            removeItem(selected.get(i));
         }
         actionMode.finish();
     }
@@ -167,7 +140,8 @@ public class ItemsFragment extends Fragment {
             if (actionMode == null) {
                 return;
             }
-            toggleItem(position);
+            toggleItem(item.getId());
+            item1 = item;
             actionMode.setTitle(getString(R.string.action_mode_title) + adapter.getSelectedItems().size());
         }
 
@@ -177,12 +151,12 @@ public class ItemsFragment extends Fragment {
                 return;
             }
             ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
-            toggleItem(position);
+            toggleItem(item.getId());
             actionMode.setTitle(getString(R.string.action_mode_title) + 1);
         }
 
-        private void toggleItem(int position) {
-            adapter.toggleItem(position);
+        private void toggleItem(int id) {
+            adapter.toggleItem(id);
         }
     }
 
@@ -226,5 +200,45 @@ public class ItemsFragment extends Fragment {
                 }
             });
         }
+    }
+
+    public void getTokenValue() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        auth_token = sharedPreferences.getString(AuthActivity.SAVE_TOKEN, "");
+    }
+
+    public void removeItem(final int id) {
+        Call<Item> call = api.deleteItem(id, auth_token);
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                loadItems();
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+            }
+        });
+    }
+
+    public void loadItems() {
+        getTokenValue();
+        Call<List<Item>> call = api.getItems(type, auth_token);
+
+        call.enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                refresh.setRefreshing(false);
+                List<Item> items = response.body();
+                adapter.setItems(items);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                System.out.println(t);
+                refresh.setRefreshing(false);
+            }
+        });
     }
 }

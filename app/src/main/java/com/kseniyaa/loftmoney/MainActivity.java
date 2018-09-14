@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private FloatingActionButton fab;
-
+    private ActionMode actionMode;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -60,23 +61,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        setSupportActionBar(toolbar);
-
         adapter = new MainPagesAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new PageListener());
 
+        // TODO: 13.09.2018  status bar no move
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     class PageListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            if (ItemsFragment.actionMode != null){
-            ItemsFragment.actionMode.finish();}
+            if (actionMode != null) {
+                actionMode.finish();
+            }
         }
 
         @Override
@@ -95,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) { }
+        public void onPageScrollStateChanged(int state) {
+        }
     }
 
     @Override
@@ -111,14 +117,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSupportActionModeFinished(@NonNull ActionMode mode) {
         super.onSupportActionModeFinished(mode);
-        tabLayout.setBackgroundColor(getResources().getColor(R.color.tab_color_primary));
+        tabLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.tab_color_primary));
         fab.show();
     }
 
     @Override
     public void onSupportActionModeStarted(@NonNull ActionMode mode) {
         super.onSupportActionModeStarted(mode);
-        tabLayout.setBackgroundColor(getResources().getColor(R.color.action_mode_back));
+        tabLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.action_mode_back));
         fab.hide();
+        actionMode = mode;
     }
 }

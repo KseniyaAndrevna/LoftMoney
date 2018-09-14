@@ -1,7 +1,9 @@
 package com.kseniyaa.loftmoney;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -21,10 +23,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         this.items = items;
     }
 
-    public void addItem(Item item) {
-        this.items.add(item);
-        notifyItemInserted(items.size() - 1);
-    }
 
     public void setListener(ItemsAdapterListener listener) {
         this.listener = listener;
@@ -52,13 +50,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     private SparseBooleanArray selections = new SparseBooleanArray();
 
-    public void toggleItem(int position) {
-        if (selections.get(position, false)) {
-            selections.put(position, false);
+    public void toggleItem(int id) {
+        if (selections.get(id, false)) {
+            selections.put(id, false);
         } else {
-            selections.put(position, true);
+            selections.put(id, true);
         }
-        notifyItemChanged(position);
+        notifyItemChanged(id);
     }
 
     public void clearSelections() {
@@ -69,16 +67,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     public List<Integer> getSelectedItems() {
         List<Integer> selected = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++) {
-            if (selections.get(i)) {
-                selected.add(i);
+            int id = items.get(i).getId();
+            if (selections.get(id)) {
+                selected.add(id);
             }
         }
         return selected;
-    }
-
-    public void removeItem(int position) {
-        items.remove(position);
-        notifyItemRemoved(position);
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -93,12 +87,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(final Item item, final ItemsAdapterListener listener, final int position, final boolean selected) {
             name.setText(item.getName());
             price.setText(Integer.toString(item.getPrice()));
 
             if (item.getType().equals(Item.Types.income.toString())) {
-                int color = itemView.getResources().getColor(R.color.item_text_price_exp_color);
+                int color = ContextCompat.getColor(itemView.getContext(),R.color.item_text_price_exp_color);
                 price.setTextColor(color);
             }
 
