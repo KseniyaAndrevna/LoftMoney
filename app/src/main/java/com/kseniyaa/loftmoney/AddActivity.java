@@ -2,7 +2,6 @@ package com.kseniyaa.loftmoney;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -68,13 +67,8 @@ public class AddActivity extends AppCompatActivity {
         }
     };
 
-    public void getTokenValue() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        auth_token = sharedPreferences.getString(AuthActivity.SAVE_TOKEN, "");
-    }
-
     public void createItems(Item item) {
-        getTokenValue();
+        auth_token = Utils.getTokenValue(sharedPreferences, this);
         Call<Item> call = api.createItem(item, auth_token);
         call.enqueue(new Callback<Item>() {
             @Override

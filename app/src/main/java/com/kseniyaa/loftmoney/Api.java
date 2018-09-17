@@ -22,6 +22,7 @@ public interface Api {
 
     @GET("auth")
     Call<LinkedHashMap<String,String>> getAuthToken(@Query("social_user_id") String user_id);
-    // TODO: 14.09.2018 get balance
 
+    @GET("balance")
+    Call<LinkedHashMap<String,String>> getBalance (@Query("auth-token") String auth_token);
 }
