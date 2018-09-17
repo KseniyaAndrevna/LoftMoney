@@ -1,6 +1,8 @@
 package com.kseniyaa.loftmoney;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,8 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private ActionMode actionMode;
+
+    private SharedPreferences sharedPreferences;
+    private String auth_token;
+    private Api api;
+    public int income;
+    public int expense;
+    public int balance;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -92,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MainPagesAdapter.PAGE_BALANCE:
                     fab.hide();
+                    getBalance();
                     break;
                 default:
                     break;
@@ -127,5 +143,38 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.action_mode_back));
         fab.hide();
         actionMode = mode;
+    }
+
+    public void getBalance() {
+        api = AuthActivity.api;
+        auth_token = Utils.getTokenValue(sharedPreferences, this);
+        Call<LinkedHashMap<String, String>> call = api.getBalance(auth_token);
+        call.enqueue(new Callback<LinkedHashMap<String, String>>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<LinkedHashMap<String, String>> call, Response<LinkedHashMap<String, String>> response) {
+                assert response.body() != null;
+                LinkedHashMap balanceData = response.body();
+                assert balanceData != null;
+                String stringExpense = (String) balanceData.get("total_expenses");
+                String stringIncome = (String) balanceData.get("total_income");
+
+                income = Integer.parseInt(stringIncome);
+                expense = Integer.parseInt(stringExpense);
+
+                TextView tv_income = findViewById(R.id.tv_income_value);
+                TextView tv_expense = findViewById(R.id.tv_expense_value);
+                TextView tv_balance = findViewById(R.id.tv_balance_value);
+
+                tv_income.setText(String.valueOf(income) + getString(R.string.rubl));
+                tv_expense.setText(String.valueOf(expense) + getString(R.string.rubl));
+                tv_balance.setText(String.valueOf(income - expense) + getString(R.string.rubl));
+            }
+
+            @Override
+            public void onFailure(Call<LinkedHashMap<String, String>> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
     }
 }

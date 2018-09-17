@@ -25,7 +25,6 @@ public class DiagramView extends View {
     private String auth_token;
     private Api api;
 
-
     public DiagramView(Context context) {
         this(context, null);
     }
@@ -40,17 +39,15 @@ public class DiagramView extends View {
         incomePaint.setColor(ContextCompat.getColor(context, R.color.income_color));
         expensePaint.setColor(ContextCompat.getColor(context, R.color.expense_color));
 
-        //todo перепутаны цвета в покраске цифр на дох и расх!!
+        //todo colors exp and inc
         //todo balance style
+        //todo space in values
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        System.out.println("Begin canvas");
         getBalance();
-
 
         if (expense + income == 0) {
             return;
@@ -81,7 +78,7 @@ public class DiagramView extends View {
         );
     }
 
-    public void getBalance() {
+    public int getBalance() {
         api = AuthActivity.api;
         auth_token = Utils.getTokenValue(sharedPreferences, getContext());
         Call<LinkedHashMap<String, String>> call = api.getBalance(auth_token);
@@ -103,6 +100,8 @@ public class DiagramView extends View {
                 System.out.println(t);
             }
         });
+        System.out.println(income);
+        return income;
     }
 }
 
