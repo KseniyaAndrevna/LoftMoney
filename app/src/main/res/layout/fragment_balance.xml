@@ -9,26 +9,25 @@
         android:id="@+id/rl_balance"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zeroDp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/rl_margin_bottom"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
-            style="@style/FrameLBalanceStyle"
-            android:layout_marginStart="16dp">
+            style="@style/FrameLBalanceStyle">
 
             <TextView
                 android:id="@+id/title_balance"
                 style="@style/TitleBalanceStyle"
                 android:text="@string/tv_balance_title"
-                android:textSize="14sp" />
+                android:textSize="@dimen/middle_text_size" />
 
             <TextView
                 android:id="@+id/tv_balance_value"
                 style="@style/ValueBalanceStyle"
-                android:paddingTop="16dp"
+                android:paddingTop="@dimen/fl_margin_st"
                 android:textColor="@color/balance_color"
-                android:textSize="48sp"
+                android:textSize="@dimen/balance_value_size"
                 tools:text="67000 \u20BD" />
 
         </FrameLayout>
@@ -61,7 +60,7 @@
             <TextView
                 android:id="@+id/tv_expense_value"
                 style="@style/ValueBalanceStyle"
-                android:paddingTop="14dp"
+                android:paddingTop="@dimen/tv_padding_top"
                 android:textColor="@color/expense_color"
                 android:textSize="@dimen/value_ex_inc_size"
                 tools:text="5400 \u20BD" />
@@ -89,7 +88,7 @@
             <TextView
                 android:id="@+id/tv_income_value"
                 style="@style/ValueBalanceStyle"
-                android:paddingTop="14dp"
+                android:paddingTop="@dimen/tv_padding_top"
                 android:textColor="@color/income_color"
                 android:textSize="@dimen/value_ex_inc_size"
                 tools:text="74000 \u20BD" />
@@ -121,8 +120,9 @@
             android:background="@color/divider_color" />
 
         <com.kseniyaa.loftmoney.DiagramView
+            android:id="@+id/diagram"
             style="@style/DefaultElementStyle"
-            android:layout_margin="24dp" />
+            android:layout_margin="@dimen/diag_margin" />
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -23,7 +23,6 @@ public class AddActivity extends AppCompatActivity {
     private Button addBtn;
     private Api api;
     private SharedPreferences sharedPreferences;
-    private String auth_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +67,7 @@ public class AddActivity extends AppCompatActivity {
     };
 
     public void createItems(Item item) {
-        auth_token = Utils.getTokenValue(sharedPreferences, this);
-        Call<Item> call = api.createItem(item, auth_token);
+        Call<Item> call = api.createItem(item, Utils.getTokenValue(this));
         call.enqueue(new Callback<Item>() {
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {

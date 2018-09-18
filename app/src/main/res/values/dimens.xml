@@ -4,7 +4,6 @@
     <dimen name="middle_text_size">14sp</dimen>
     <dimen name="small_text_size">10sp</dimen>
 
-
     <!-- Add Screen -->
     <dimen name="add_et_margin_st_en">32dp</dimen>
     <dimen name="add_et_margin_b">8dp</dimen>
@@ -49,6 +48,9 @@
     <dimen name="title_size">@dimen/small_text_size</dimen>
     <dimen name="value_ex_inc_size">24sp</dimen>
     <dimen name="oneDp">1dp</dimen>
-
+    <dimen name="rl_margin_bottom">8dp</dimen>
+    <dimen name="balance_value_size">48sp</dimen>
+    <dimen name="tv_padding_top">14dp</dimen>
+    <dimen name="diag_margin">24dp</dimen>
 
 </resources>

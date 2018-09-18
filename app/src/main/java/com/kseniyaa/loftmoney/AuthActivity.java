@@ -2,7 +2,6 @@ package com.kseniyaa.loftmoney;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -41,8 +40,7 @@ public class AuthActivity extends AppCompatActivity {
     public static Api api;
     private String user_id;
     private String token;
-    private SharedPreferences sharedPreferences;
-    public static final String SAVE_TOKEN = "token";
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -128,7 +126,7 @@ public class AuthActivity extends AppCompatActivity {
                 assert response.body() != null;
                 LinkedHashMap authData = response.body();
                 token = (String) authData.get("auth_token");
-                Utils.saveToken(token, sharedPreferences, getBaseContext());
+                Utils.saveToken(token, getBaseContext());
             }
 
             @Override

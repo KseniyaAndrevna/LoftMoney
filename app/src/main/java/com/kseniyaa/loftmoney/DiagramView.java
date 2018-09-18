@@ -1,7 +1,6 @@
 package com.kseniyaa.loftmoney;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
@@ -9,24 +8,16 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.LinkedHashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class DiagramView extends View {
 
-    public int income;
-    private int expense;
     private Paint expensePaint = new Paint();
     private Paint incomePaint = new Paint();
-    private SharedPreferences sharedPreferences;
-    private String auth_token;
-    private Api api;
+    int income;
+    int expense;
 
     public DiagramView(Context context) {
         this(context, null);
+
     }
 
     public DiagramView(Context context, @Nullable AttributeSet attrs) {
@@ -39,15 +30,17 @@ public class DiagramView extends View {
         incomePaint.setColor(ContextCompat.getColor(context, R.color.income_color));
         expensePaint.setColor(ContextCompat.getColor(context, R.color.expense_color));
 
-        //todo colors exp and inc
-        //todo balance style
-        //todo space in values
+    }
+
+    public void setValues(int income, int expense) {
+        this.income = income;
+        this.expense = expense;
+        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        getBalance();
 
         if (expense + income == 0) {
             return;
@@ -76,32 +69,6 @@ public class DiagramView extends View {
                 360 - incomeAngle / 2, incomeAngle,
                 true, incomePaint
         );
-    }
-
-    public int getBalance() {
-        api = AuthActivity.api;
-        auth_token = Utils.getTokenValue(sharedPreferences, getContext());
-        Call<LinkedHashMap<String, String>> call = api.getBalance(auth_token);
-        call.enqueue(new Callback<LinkedHashMap<String, String>>() {
-            @Override
-            public void onResponse(Call<LinkedHashMap<String, String>> call, Response<LinkedHashMap<String, String>> response) {
-                assert response.body() != null;
-                LinkedHashMap balanceData = response.body();
-                assert balanceData != null;
-                String stringExpense = (String) balanceData.get("total_expenses");
-                String stringIncome = (String) balanceData.get("total_income");
-
-                income = Integer.parseInt(stringIncome);
-                expense = Integer.parseInt(stringExpense);
-            }
-
-            @Override
-            public void onFailure(Call<LinkedHashMap<String, String>> call, Throwable t) {
-                System.out.println(t);
-            }
-        });
-        System.out.println(income);
-        return income;
     }
 }
 

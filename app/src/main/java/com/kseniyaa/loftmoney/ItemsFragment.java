@@ -1,7 +1,6 @@
 package com.kseniyaa.loftmoney;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,8 +32,6 @@ public class ItemsFragment extends Fragment {
 
     private static final String KEY_TYPE = "type";
     public static final int ITEM_REQUEST_CODE = 100;
-    private SharedPreferences sharedPreferences;
-    private String auth_token;
     private RecyclerView recycler;
     private FloatingActionButton fab;
     private ItemsAdapter adapter;
@@ -197,7 +194,7 @@ public class ItemsFragment extends Fragment {
     }
 
     public void removeItem(final int id) {
-        Call<Item> call = api.deleteItem(id, auth_token);
+        Call<Item> call = api.deleteItem(id, Utils.getTokenValue(getContext()));
         call.enqueue(new Callback<Item>() {
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {
@@ -211,8 +208,7 @@ public class ItemsFragment extends Fragment {
     }
 
     public void loadItems() {
-        auth_token = Utils.getTokenValue(sharedPreferences, getContext());
-        Call<List<Item>> call = api.getItems(type, auth_token);
+        Call<List<Item>> call = api.getItems(type, Utils.getTokenValue(getContext()));
 
         call.enqueue(new Callback<List<Item>>() {
             @Override

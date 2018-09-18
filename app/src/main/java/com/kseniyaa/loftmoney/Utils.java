@@ -5,17 +5,17 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class Utils {
+    private static final String SAVE_TOKEN = "token";
 
-    public static String getTokenValue(SharedPreferences sharedPreferences, Context context) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String auth_token = sharedPreferences.getString(AuthActivity.SAVE_TOKEN, "");
-        return auth_token;
+    public static String getTokenValue( Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(SAVE_TOKEN, "");
     }
 
-    public static void saveToken(String token, SharedPreferences sharedPreferences, Context context) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    public static void saveToken(String token, Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(AuthActivity.SAVE_TOKEN, token);
+        editor.putString(SAVE_TOKEN, token);
         editor.apply();
     }
 }

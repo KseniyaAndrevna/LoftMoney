@@ -31,7 +31,7 @@ public class MainPagesAdapter extends FragmentPagerAdapter {
                 return ItemsFragment.newInstance(Item.Types.income.toString());
 
             case PAGE_BALANCE:
-                return new BalanceFragment();
+                return BalanceFragment.newInstance();
 
             default:
                 return null;
