@@ -17,7 +17,6 @@ public class DiagramView extends View {
 
     public DiagramView(Context context) {
         this(context, null);
-
     }
 
     public DiagramView(Context context, @Nullable AttributeSet attrs) {
@@ -29,7 +28,6 @@ public class DiagramView extends View {
 
         incomePaint.setColor(ContextCompat.getColor(context, R.color.income_color));
         expensePaint.setColor(ContextCompat.getColor(context, R.color.expense_color));
-
     }
 
     public void setValues(int income, int expense) {

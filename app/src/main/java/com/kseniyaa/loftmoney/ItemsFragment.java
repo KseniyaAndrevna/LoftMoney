@@ -51,6 +51,7 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate ");
 
         Bundle args = getArguments();
         assert args != null;
@@ -60,13 +61,12 @@ public class ItemsFragment extends Fragment {
 
         adapter = new ItemsAdapter();
         adapter.setListener(new AdapterListener());
-
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-
+        System.out.println("onCreateView ");
         return inflater.inflate(R.layout.fragment_items, container, false);
     }
 

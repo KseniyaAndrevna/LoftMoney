@@ -1,6 +1,5 @@
 package com.kseniyaa.loftmoney;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -22,7 +21,6 @@ public class AddActivity extends AppCompatActivity {
     private EditText priceInput;
     private Button addBtn;
     private Api api;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

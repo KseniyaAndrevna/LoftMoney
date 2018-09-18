@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MainPagesAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new PageListener());
-
         setSupportActionBar(toolbar);
     }
 
@@ -103,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println(data);
 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         for (Fragment fragment : fragments) {

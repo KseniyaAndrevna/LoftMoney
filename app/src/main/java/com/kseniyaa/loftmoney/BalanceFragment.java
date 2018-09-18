@@ -42,6 +42,12 @@ public class BalanceFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getBalance();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_balance, container, false);
     }
@@ -54,8 +60,6 @@ public class BalanceFragment extends Fragment {
         tv_expense = view.findViewById(R.id.tv_expense_value);
         tv_balance = view.findViewById(R.id.tv_balance_value);
         diagramView = view.findViewById(R.id.diagram);
-
-        getBalance();
     }
 
     public void getBalance() {
@@ -78,7 +82,6 @@ public class BalanceFragment extends Fragment {
                 tv_balance.setText(valueFormat(income - expense) + getString(R.string.rubl));
 
                 diagramView.setValues(income, expense);
-
             }
 
             @Override

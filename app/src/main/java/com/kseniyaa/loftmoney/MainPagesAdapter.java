@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class MainPagesAdapter extends FragmentPagerAdapter {
 
-
     public static final int PAGE_EXPENSES = 0;
     public static final int PAGE_INCOMES = 1;
     public static final int PAGE_BALANCE = 2;
@@ -25,12 +24,17 @@ public class MainPagesAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case PAGE_EXPENSES:
+                System.out.println(position);
                 return ItemsFragment.newInstance(Item.Types.expense.toString());
 
             case PAGE_INCOMES:
+                System.out.println("no!!??");
+                System.out.println(position);
                 return ItemsFragment.newInstance(Item.Types.income.toString());
 
             case PAGE_BALANCE:
+                System.out.println("wtf!!!???");
+                System.out.println(position);
                 return BalanceFragment.newInstance();
 
             default:
