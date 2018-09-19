@@ -28,13 +28,9 @@ public class MainPagesAdapter extends FragmentPagerAdapter {
                 return ItemsFragment.newInstance(Item.Types.expense.toString());
 
             case PAGE_INCOMES:
-                System.out.println("no!!??");
-                System.out.println(position);
                 return ItemsFragment.newInstance(Item.Types.income.toString());
 
             case PAGE_BALANCE:
-                System.out.println("wtf!!!???");
-                System.out.println(position);
                 return BalanceFragment.newInstance();
 
             default:
