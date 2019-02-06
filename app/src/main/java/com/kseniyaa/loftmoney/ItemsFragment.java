@@ -1,10 +1,8 @@
 package com.kseniyaa.loftmoney;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -34,8 +32,13 @@ public class ItemsFragment extends Fragment {
 
     private static final String KEY_TYPE = "type";
     public static final int ITEM_REQUEST_CODE = 100;
-    private SharedPreferences sharedPreferences;
-    private String auth_token;
+    private RecyclerView recycler;
+    private FloatingActionButton fab;
+    private ItemsAdapter adapter;
+    private String type;
+    private Api api;
+    private SwipeRefreshLayout refresh;
+    public ActionMode actionMode;
 
     public static ItemsFragment newInstance(String type) {
         ItemsFragment fragment = new ItemsFragment();
@@ -45,18 +48,10 @@ public class ItemsFragment extends Fragment {
         return fragment;
     }
 
-    private RecyclerView recycler;
-    private FloatingActionButton fab;
-    private ItemsAdapter adapter;
-    private String type;
-    private Api api;
-    private SwipeRefreshLayout refresh;
-    public ActionMode actionMode;
-    Item item1;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate ");
 
         Bundle args = getArguments();
         assert args != null;
@@ -66,13 +61,12 @@ public class ItemsFragment extends Fragment {
 
         adapter = new ItemsAdapter();
         adapter.setListener(new AdapterListener());
-
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-
+        System.out.println("onCreateView ");
         return inflater.inflate(R.layout.fragment_items, container, false);
     }
 
@@ -125,8 +119,6 @@ public class ItemsFragment extends Fragment {
 
     private void removeSelectedItems() {
         List<Integer> selected = adapter.getSelectedItems();
-        System.out.println("selected" + selected);
-        System.out.println(selected.get(0));
         for (int i = 0; i < selected.size(); i++) {
             removeItem(selected.get(i));
         }
@@ -140,8 +132,7 @@ public class ItemsFragment extends Fragment {
             if (actionMode == null) {
                 return;
             }
-            toggleItem(item.getId());
-            item1 = item;
+            toggleItem(item.getId(), position);
             actionMode.setTitle(getString(R.string.action_mode_title) + adapter.getSelectedItems().size());
         }
 
@@ -151,12 +142,12 @@ public class ItemsFragment extends Fragment {
                 return;
             }
             ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
-            toggleItem(item.getId());
+            toggleItem(item.getId(), position);
             actionMode.setTitle(getString(R.string.action_mode_title) + 1);
         }
 
-        private void toggleItem(int id) {
-            adapter.toggleItem(id);
+        private void toggleItem(int id, int position) {
+            adapter.toggleItem(id, position);
         }
     }
 
@@ -202,13 +193,8 @@ public class ItemsFragment extends Fragment {
         }
     }
 
-    public void getTokenValue() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        auth_token = sharedPreferences.getString(AuthActivity.SAVE_TOKEN, "");
-    }
-
     public void removeItem(final int id) {
-        Call<Item> call = api.deleteItem(id, auth_token);
+        Call<Item> call = api.deleteItem(id, Utils.getTokenValue(getContext()));
         call.enqueue(new Callback<Item>() {
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {
@@ -222,8 +208,7 @@ public class ItemsFragment extends Fragment {
     }
 
     public void loadItems() {
-        getTokenValue();
-        Call<List<Item>> call = api.getItems(type, auth_token);
+        Call<List<Item>> call = api.getItems(type, Utils.getTokenValue(getContext()));
 
         call.enqueue(new Callback<List<Item>>() {
             @Override

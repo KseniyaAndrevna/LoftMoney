@@ -40,7 +40,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
-        holder.bind(item, listener, position, selections.get(position));
+        holder.bind(item, listener, position, selections.get(item.getId()));
     }
 
     @Override
@@ -50,13 +50,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     private SparseBooleanArray selections = new SparseBooleanArray();
 
-    public void toggleItem(int id) {
+    public void toggleItem(int id, int position) {
         if (selections.get(id, false)) {
             selections.put(id, false);
         } else {
             selections.put(id, true);
         }
-        notifyItemChanged(id);
+        notifyItemChanged(position);
     }
 
     public void clearSelections() {
@@ -93,7 +93,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
             price.setText(Integer.toString(item.getPrice()));
 
             if (item.getType().equals(Item.Types.income.toString())) {
-                int color = ContextCompat.getColor(itemView.getContext(),R.color.item_text_price_exp_color);
+                int color = ContextCompat.getColor(itemView.getContext(),R.color.item_text_price_inc_color);
                 price.setTextColor(color);
             }
 

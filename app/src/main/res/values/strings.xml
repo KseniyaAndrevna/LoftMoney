@@ -30,7 +30,9 @@
     <string name="tv_version_title">Версия\u0020</string>
     <string name="tv_version_year">2018</string>
 
-
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Balance Screen -->
+    <string name="tv_balance_title">Доступные финансы</string>
+    <string name="tv_expense_title">Расход</string>
+    <string name="tv_income_title">Доход</string>
+    <string name="rubl">\u0020 \u20BD</string>
 </resources>

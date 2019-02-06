@@ -1,10 +1,8 @@
 package com.kseniyaa.loftmoney;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -27,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private ActionMode actionMode;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MainPagesAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new PageListener());
-
-        // TODO: 13.09.2018  status bar no move
         setSupportActionBar(toolbar);
     }
 

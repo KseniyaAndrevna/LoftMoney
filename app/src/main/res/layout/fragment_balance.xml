@@ -1,12 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/DefaultActivityStyle"
     tools:context=".BalanceFragment">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/rl_balance"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="@dimen/zeroDp"
+        android:layout_marginBottom="@dimen/rl_margin_bottom"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <FrameLayout
+            style="@style/FrameLBalanceStyle">
+
+            <TextView
+                android:id="@+id/title_balance"
+                style="@style/TitleBalanceStyle"
+                android:text="@string/tv_balance_title"
+                android:textSize="@dimen/middle_text_size" />
+
+            <TextView
+                android:id="@+id/tv_balance_value"
+                style="@style/ValueBalanceStyle"
+                android:paddingTop="@dimen/fl_margin_st"
+                android:textColor="@color/balance_color"
+                android:textSize="@dimen/balance_value_size"
+                tools:text="67000 \u20BD" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/oneDp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divider_color" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_exp"
+        android:layout_width="@dimen/zeroDp"
+        android:layout_height="@dimen/zeroDp"
+        app:layout_constraintEnd_toStartOf="@id/divider"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_balance">
+
+        <FrameLayout style="@style/FrameLBalanceStyle">
+
+            <TextView
+                android:id="@+id/title_expense"
+                style="@style/TitleBalanceStyle"
+                android:text="@string/tv_expense_title"
+                android:textSize="@dimen/title_size" />
+
+            <TextView
+                android:id="@+id/tv_expense_value"
+                style="@style/ValueBalanceStyle"
+                android:paddingTop="@dimen/tv_padding_top"
+                android:textColor="@color/expense_color"
+                android:textSize="@dimen/value_ex_inc_size"
+                tools:text="5400 \u20BD" />
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_inc"
+        android:layout_width="@dimen/zeroDp"
+        android:layout_height="@dimen/zeroDp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/rl_balance">
+
+        <FrameLayout style="@style/FrameLBalanceStyle">
+
+            <TextView
+                android:id="@+id/title_income"
+                style="@style/TitleBalanceStyle"
+                android:text="@string/tv_income_title"
+                android:textSize="@dimen/title_size" />
+
+            <TextView
+                android:id="@+id/tv_income_value"
+                style="@style/ValueBalanceStyle"
+                android:paddingTop="@dimen/tv_padding_top"
+                android:textColor="@color/income_color"
+                android:textSize="@dimen/value_ex_inc_size"
+                tools:text="74000 \u20BD" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="@dimen/oneDp"
+        android:layout_height="@dimen/zeroDp"
+        android:background="@color/divider_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rl_inc" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zeroDp"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@+id/rl_inc">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/oneDp"
+            android:layout_gravity="top"
+            android:background="@color/divider_color" />
+
+        <com.kseniyaa.loftmoney.DiagramView
+            android:id="@+id/diagram"
+            style="@style/DefaultElementStyle"
+            android:layout_margin="@dimen/diag_margin" />
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

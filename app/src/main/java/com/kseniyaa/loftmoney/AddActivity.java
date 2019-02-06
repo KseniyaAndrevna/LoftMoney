@@ -1,10 +1,9 @@
 package com.kseniyaa.loftmoney;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,8 +22,6 @@ public class AddActivity extends AppCompatActivity {
     private EditText priceInput;
     private Button addBtn;
     private Api api;
-    private SharedPreferences sharedPreferences;
-    private String auth_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +36,10 @@ public class AddActivity extends AppCompatActivity {
         final String type = getIntent().getExtras().getString(KEY_TYPE);
 
         nameInput.addTextChangedListener(watcher);
+        nameInput.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(25) });
         priceInput.addTextChangedListener(watcher);
+        priceInput.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(10) });
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,14 +68,8 @@ public class AddActivity extends AppCompatActivity {
         }
     };
 
-    public void getTokenValue() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        auth_token = sharedPreferences.getString(AuthActivity.SAVE_TOKEN, "");
-    }
-
     public void createItems(Item item) {
-        getTokenValue();
-        Call<Item> call = api.createItem(item, auth_token);
+        Call<Item> call = api.createItem(item, Utils.getTokenValue(this));
         call.enqueue(new Callback<Item>() {
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {

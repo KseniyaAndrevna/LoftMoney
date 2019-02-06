@@ -20,7 +20,7 @@
     <color name="dark_grey_blue">#333f59</color>
     <color name="white_five">#f2f2f2</color>
     <color name="white_two">#59ffffff</color>
-
+    <color name="white_six">#efefef</color>
 
     <color name="icon_launcher_color">@color/lightish_blue</color>
 
@@ -33,8 +33,8 @@
 
     <!-- Item -->
     <color name="item_text_name_color">@color/medium_grey</color>
-    <color name="item_text_price_inc_color">@color/dark_sky_blue</color>
-    <color name="item_text_price_exp_color">@color/apple_green</color>
+    <color name="item_text_price_inc_color">@color/apple_green</color>
+    <color name="item_text_price_exp_color">@color/dark_sky_blue</color>
     <color name="item_back_color">@color/white</color>
 
     <!-- TabLayout -->
@@ -62,5 +62,13 @@
     <color name="auth_btn_text_color">@color/lightish_blue</color>
     <color name="auth_app_name_text_color">@color/white</color>
     <color name="auth_version_text_color">@color/white_two</color>
+
+    <!-- Balance Screen -->
+    <color name="expense_color">@color/dark_sky_blue</color>
+    <color name="income_color">@color/apple_green</color>
+    <color name="balance_color">@color/pale_orange</color>
+    <color name="divider_color">@color/white_six</color>
+    <color name="tv_color">@color/medium_grey</color>
+
 
 </resources>

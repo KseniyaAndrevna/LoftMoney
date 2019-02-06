@@ -118,4 +118,18 @@
         <item name="android:textColor">@color/auth_version_text_color</item>
     </style>
 
+    <style name="TitleBalanceStyle" parent="DefaultElementStyle">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/tv_color</item>
+    </style>
+
+    <style name="ValueBalanceStyle" parent="DefaultElementStyle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="FrameLBalanceStyle" parent="DefaultElementStyle">
+        <item name="android:layout_marginStart">@dimen/fl_margin_st</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
 </resources>
